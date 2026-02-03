@@ -2,13 +2,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Sallybot {
-//    public static final int MAX_NUM_OF_TASKS = 100;
-
     public static void main(String[] args) {
-        boolean isStillExecuting = true;
+        boolean isPrompting = true;
         ArrayList<Task> tasks = new ArrayList<>();
         String logo = getLogo();
 
+        // Greeting message that is executed when the program starts
         drawBorder();
         System.out.println(logo + "\n");
         System.out.println("\t 🌸こんにちは🌸\n");
@@ -16,7 +15,7 @@ public class Sallybot {
         System.out.println("\t What can I do for you today?\n");
         drawBorder();
 
-        while (isStillExecuting) {
+        while (isPrompting) {
             Scanner input = new Scanner(System.in);
             String command = input.nextLine();
             String[] commandArgs = command.trim().split("\\s+", 2);
@@ -58,8 +57,7 @@ public class Sallybot {
                         }
                         drawBorder();
                         break;
-                    }
-                    catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException ignored) {}
                 }
             case "unmark":
                 if (commandArgs.length == 1) {
@@ -89,7 +87,7 @@ public class Sallybot {
                 }
             case "bye":
                 if (commandArgs.length == 1) {
-                    isStillExecuting = false;
+                    isPrompting = false;
                     break;
                 }
             default:
