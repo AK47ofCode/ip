@@ -9,35 +9,63 @@ public class Sallybot {
 
         // Greeting message that is executed when the program starts
         drawBorder();
-        System.out.println(logo + "\n");
-        System.out.println("\t 🌸こんにちは🌸\n");
+        System.out.println(logo);
+        System.out.println("\t 🌸こんにちは🌸");
         System.out.println("\t Hello there✨ I'm Sallybot! Always here to help hehe\n");
-        System.out.println("\t What can I do for you today?\n");
+        System.out.println("\t What can I do for you today?");
         drawBorder();
 
         while (isPrompting) {
+            System.out.println();
             Scanner input = new Scanner(System.in);
             String command = input.nextLine();
-            String[] commandArgs = command.trim().split("\\s+", 2);
-            String commandName = commandArgs[0];
+            String[] commandArgs = command.trim().split("\\s+");
+            String commandInput;
+            String[] commandInputs;
 
-            switch (commandName) {
+            switch (commandArgs[0]) {
+            case "todo":
+                commandInput = command.replace(commandArgs[0], "").trim();
+                tasks.add(new ToDo(commandInput));
+                drawBorder();
+                System.out.println("\t はい! I've added this task:");
+                System.out.println("\t   " + tasks.get(tasks.size() - 1).toString());
+                System.out.println("\t Now you have " + tasks.size() + " tasks in the list.");
+                drawBorder();
+                break;
+            case "deadline":
+                commandInput = command.replace(commandArgs[0], "").trim();
+                commandInputs = commandInput.trim().split("/by");
+                tasks.add(new Deadline(commandInputs[0].trim(), commandInputs[1].trim()));
+                drawBorder();
+                System.out.println("\t はい! I've added this task:");
+                System.out.println("\t   " + tasks.get(tasks.size() - 1).toString());
+                System.out.println("\t Now you have " + tasks.size() + " tasks in the list.");
+                drawBorder();
+                break;
+            case "event":
+                commandInput = command.replace(commandArgs[0], "").trim();
+                commandInputs = commandInput.trim().split("/from|/to");
+                tasks.add(new Event(commandInputs[0].trim(), commandInputs[1].trim(), commandInputs[2].trim()));
+                drawBorder();
+                System.out.println("\t はい! I've added this task:");
+                System.out.println("\t   " + tasks.get(tasks.size() - 1).toString());
+                System.out.println("\t Now you have " + tasks.size() + " tasks in the list.");
+                drawBorder();
+                break;
             case "list":
                 if (commandArgs.length == 1) {
                     drawBorder();
-                    System.out.println("\t はい! Here are the tasks in your list:\n");
+                    System.out.println("\t はい! Here are the tasks in your list:");
                     for (Task task : tasks) {
-                        System.out.println("\t "
-                                + (tasks.indexOf(task) + 1) + ".["
-                                + task.getStatusIcon() + "] "
-                                + task.getDescription());
+                        System.out.println("\t " + (tasks.indexOf(task) + 1) + "." + task.toString());
                     }
                     drawBorder();
                     break;
                 }
             case "mark":
                 if (commandArgs.length == 1) {
-                    System.out.println("\t すみません🙇‍♀️ Please provide the index of the task you would like to mark.\n");
+                    System.out.println("\t すみません🙇‍♀️ Please provide the index of the task you would like to mark.");
                     break;
                 }
                 else {
@@ -46,14 +74,12 @@ public class Sallybot {
                         if (index >= 1 && index <= tasks.size()) {
                             tasks.get(index - 1).markAsDone();
                             drawBorder();
-                            System.out.println("\t はい! I've marked your task as done:\n");
-                            System.out.println("\t ["
-                                    + tasks.get(index - 1).getStatusIcon() + "] "
-                                    + tasks.get(index - 1).getDescription());
+                            System.out.println("\t はい! I've marked your task as done:");
+                            System.out.println("\t " + tasks.get(index - 1).toString());
                         }
                         else  {
                             drawBorder();
-                            System.out.println("\t すみません🙇‍♀️ This index is invalid!\n");
+                            System.out.println("\t すみません🙇‍♀️ This index is invalid!");
                         }
                         drawBorder();
                         break;
@@ -62,7 +88,7 @@ public class Sallybot {
             case "unmark":
                 if (commandArgs.length == 1) {
                     System.out.println("\t すみません🙇‍♀️ " +
-                            "Please provide the index of the task you would like to unmark.\n");
+                            "Please provide the index of the task you would like to unmark.");
                     break;
                 }
                 else {
@@ -71,14 +97,12 @@ public class Sallybot {
                         if (index >= 1 && index <= tasks.size()) {
                             tasks.get(index - 1).markAsNotDone();
                             drawBorder();
-                            System.out.println("\t はい! I've marked your task as not done:\n");
-                            System.out.println("\t ["
-                                    + tasks.get(index - 1).getStatusIcon() + "] "
-                                    + tasks.get(index - 1).getDescription());
+                            System.out.println("\t はい! I've marked your task as not done:");
+                            System.out.println("\t " + tasks.get(index - 1).toString());
                         }
                         else  {
                             drawBorder();
-                            System.out.println("\t すみません🙇‍♀️ This index is invalid!\n");
+                            System.out.println("\t すみません🙇‍♀️ This index is invalid!");
                         }
                         drawBorder();
                         break;
@@ -93,7 +117,7 @@ public class Sallybot {
             default:
                 tasks.add(new Task(command));
                 drawBorder();
-                System.out.println("\t はい! Added into the list of tasks: " + command + "\n");
+                System.out.println("\t はい! Added into the list of tasks: " + command);
                 drawBorder();
                 break;
             }
@@ -103,24 +127,24 @@ public class Sallybot {
     }
 
     /**
-     * Prints the bye message
+     * Prints the bye message.
      */
     private static void printByeMessage() {
         drawBorder();
-        System.out.println("\t じゃあね👋\n");
-        System.out.println("\t See you later!\n");
+        System.out.println("\t じゃあね👋");
+        System.out.println("\t See you later!");
         drawBorder();
     }
 
     /**
-     * Draws a border
+     * Draws a border.
      */
     private static void drawBorder() {
-        System.out.println("\t____________________________________________________________\n");
+        System.out.println("\t____________________________________________________________");
     }
 
     /**
-     * @return Displays the ASCII logo of Sallybot
+     * @return Displays the ASCII logo of Sallybot.
      */
     private static String getLogo() {
         return """

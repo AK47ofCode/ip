@@ -1,6 +1,6 @@
 /**
- * Creates an object that represents a Task<br>
- * It stores the description and the status of the task (whether it is done or not)
+ * Creates an object that represents a Task.<br>
+ * It stores the description and the status of the task (whether it is done or not).
  */
 public class Task {
     protected String description;
@@ -25,5 +25,10 @@ public class Task {
 
     public void markAsNotDone() {
         isDone = false;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + getStatusIcon() + "] " + description;
     }
 }
