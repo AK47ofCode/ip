@@ -9,13 +9,9 @@ public class Sallybot {
         Scanner input = new Scanner(System.in);
 
         // Greeting message that is executed when the program starts
-        drawBorder();
-        System.out.println(logo);
-        System.out.println("\t 🌸こんにちは🌸");
-        System.out.println("\t Hello there✨ I'm Sallybot! Always here to help hehe\n");
-        System.out.println("\t What can I do for you today?");
-        drawBorder();
+        printHelloMessage(logo);
 
+        // While loop continuously prompts the user until the user enters the "bye" command
         while (isPrompting) {
             System.out.println();
             String command = input.nextLine();
@@ -23,35 +19,24 @@ public class Sallybot {
             String commandInput;
             String[] commandInputs;
 
+            // Switch statement to handle the various commands
             switch (commandArgs[0]) {
             case "todo":
                 commandInput = command.replace(commandArgs[0], "").trim();
                 tasks.add(new ToDo(commandInput));
-                drawBorder();
-                System.out.println("\t はい! I've added this task:");
-                System.out.println("\t   " + tasks.get(tasks.size() - 1).toString());
-                System.out.println("\t Now you have " + tasks.size() + " tasks in the list.");
-                drawBorder();
+                getNewlyAddedTask(tasks);
                 break;
             case "deadline":
                 commandInput = command.replace(commandArgs[0], "").trim();
                 commandInputs = commandInput.trim().split("/by");
                 tasks.add(new Deadline(commandInputs[0].trim(), commandInputs[1].trim()));
-                drawBorder();
-                System.out.println("\t はい! I've added this task:");
-                System.out.println("\t   " + tasks.get(tasks.size() - 1).toString());
-                System.out.println("\t Now you have " + tasks.size() + " tasks in the list.");
-                drawBorder();
+                getNewlyAddedTask(tasks);
                 break;
             case "event":
                 commandInput = command.replace(commandArgs[0], "").trim();
                 commandInputs = commandInput.trim().split("/from|/to");
                 tasks.add(new Event(commandInputs[0].trim(), commandInputs[1].trim(), commandInputs[2].trim()));
-                drawBorder();
-                System.out.println("\t はい! I've added this task:");
-                System.out.println("\t   " + tasks.get(tasks.size() - 1).toString());
-                System.out.println("\t Now you have " + tasks.size() + " tasks in the list.");
-                drawBorder();
+                getNewlyAddedTask(tasks);
                 break;
             case "list":
                 if (commandArgs.length == 1) {
@@ -65,50 +50,51 @@ public class Sallybot {
                 }
             case "mark":
                 if (commandArgs.length == 1) {
+                    drawBorder();
                     System.out.println("\t すみません🙇‍♀️ Please provide the index of the task you would like to mark.");
+                    drawBorder();
                     break;
                 }
-                else {
-                    try {
-                        int index = Integer.parseInt(commandArgs[1]);
-                        if (index >= 1 && index <= tasks.size()) {
-                            tasks.get(index - 1).markAsDone();
-                            drawBorder();
-                            System.out.println("\t はい! I've marked your task as done:");
-                            System.out.println("\t " + tasks.get(index - 1).toString());
-                        }
-                        else  {
-                            drawBorder();
-                            System.out.println("\t すみません🙇‍♀️ This index is invalid!");
-                        }
+                try {
+                    int index = Integer.parseInt(commandArgs[1]);
+                    if (index >= 1 && index <= tasks.size()) {
+                        tasks.get(index - 1).markAsDone();
                         drawBorder();
-                        break;
-                    } catch (NumberFormatException ignored) {}
-                }
+                        System.out.println("\t はい! I've marked your task as done:");
+                        System.out.println("\t " + tasks.get(index - 1).toString());
+                    }
+                    else  {
+                        drawBorder();
+                        System.out.println("\t すみません🙇‍♀️ This index is invalid!");
+                    }
+                    drawBorder();
+                    break;
+                } catch (NumberFormatException ignored) {}
             case "unmark":
                 if (commandArgs.length == 1) {
+                    drawBorder();
                     System.out.println("\t すみません🙇‍♀️ " +
                             "Please provide the index of the task you would like to unmark.");
+                    drawBorder();
                     break;
                 }
-                else {
-                    try {
-                        int index = Integer.parseInt(commandArgs[1]);
-                        if (index >= 1 && index <= tasks.size()) {
-                            tasks.get(index - 1).markAsNotDone();
-                            drawBorder();
-                            System.out.println("\t はい! I've marked your task as not done:");
-                            System.out.println("\t " + tasks.get(index - 1).toString());
-                        }
-                        else  {
-                            drawBorder();
-                            System.out.println("\t すみません🙇‍♀️ This index is invalid!");
-                        }
+                try {
+                    int index = Integer.parseInt(commandArgs[1]);
+                    drawBorder();
+                    if (index >= 1 && index <= tasks.size()) {
+                        tasks.get(index - 1).markAsNotDone();
                         drawBorder();
-                        break;
+                        System.out.println("\t はい! I've marked your task as not done:");
+                        System.out.println("\t " + tasks.get(index - 1).toString());
                     }
-                    catch (NumberFormatException ignored) {}
+                    else  {
+                        drawBorder();
+                        System.out.println("\t すみません🙇‍♀️ This index is invalid!");
+                    }
+                    drawBorder();
+                    break;
                 }
+                catch (NumberFormatException ignored) {}
             case "bye":
                 if (commandArgs.length == 1) {
                     isPrompting = false;
@@ -123,11 +109,37 @@ public class Sallybot {
             }
         }
 
+        // Summons the bye message ones the program breaks from the while loop and is about to end
         printByeMessage();
         input.close();
     }
 
     // HELPER METHODS
+    /**
+     * Gets the newly added task in the array of tasks and displays it to the user.
+     * @param tasks A dynamic array of the Task class type that stores task objects.
+     */
+    private static void getNewlyAddedTask(ArrayList<Task> tasks) {
+        drawBorder();
+        System.out.println("\t はい! I've added this task:");
+        System.out.println("\t   " + tasks.get(tasks.size() - 1).toString());
+        System.out.println("\t Now you have " + tasks.size() + " tasks in the list. 🌸");
+        drawBorder();
+    }
+
+    /**
+     * Prints the hello message.
+     * @param logo A string of text that represents the logo of Sallybot.
+     */
+    private static void printHelloMessage(String logo) {
+        drawBorder();
+        System.out.println(logo);
+        System.out.println("\t 🌸こんにちは🌸");
+        System.out.println("\t Hello there✨ I'm Sallybot! Always here to help hehe\n");
+        System.out.println("\t What can I do for you today?");
+        drawBorder();
+    }
+
     /**
      * Prints the bye message.
      */
@@ -146,7 +158,8 @@ public class Sallybot {
     }
 
     /**
-     * @return Displays the ASCII logo of Sallybot.
+     * Renders the ASCII logo of Sallybot.
+     * @return The ASCII logo of Sallybot as a String.
      */
     private static String getLogo() {
         return """
