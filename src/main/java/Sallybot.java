@@ -6,6 +6,7 @@ public class Sallybot {
         boolean isPrompting = true;
         ArrayList<Task> tasks = new ArrayList<>();
         String logo = getLogo();
+        Scanner input = new Scanner(System.in);
 
         // Greeting message that is executed when the program starts
         drawBorder();
@@ -17,7 +18,6 @@ public class Sallybot {
 
         while (isPrompting) {
             System.out.println();
-            Scanner input = new Scanner(System.in);
             String command = input.nextLine();
             String[] commandArgs = command.trim().split("\\s+");
             String commandInput;
@@ -124,8 +124,10 @@ public class Sallybot {
         }
 
         printByeMessage();
+        input.close();
     }
 
+    // HELPER METHODS
     /**
      * Prints the bye message.
      */

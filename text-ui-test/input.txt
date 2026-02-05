@@ -1,0 +1,7 @@
+todo Lee Kuan Yi: Answer CS2113 tutorial questions
+deadline weekly quiz /by Monday 9pm
+list
+event CS2113 lecture /from Friday 4 /to 6pm
+mark 1 done
+list
+bye
