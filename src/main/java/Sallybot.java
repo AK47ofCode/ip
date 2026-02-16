@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Sallybot {
     public static void main(String[] args) {
@@ -20,92 +21,42 @@ public class Sallybot {
             String[] commandInputs;
 
             // Switch statement to handle the various commands
-            switch (commandArgs[0]) {
-            case "todo":
-                commandInput = command.replace(commandArgs[0], "").trim();
-                tasks.add(new ToDo(commandInput));
-                getNewlyAddedTask(tasks);
-                break;
-            case "deadline":
-                commandInput = command.replace(commandArgs[0], "").trim();
-                commandInputs = commandInput.trim().split("/by");
-                tasks.add(new Deadline(commandInputs[0].trim(), commandInputs[1].trim()));
-                getNewlyAddedTask(tasks);
-                break;
-            case "event":
-                commandInput = command.replace(commandArgs[0], "").trim();
-                commandInputs = commandInput.trim().split("/from|/to");
-                tasks.add(new Event(commandInputs[0].trim(), commandInputs[1].trim(), commandInputs[2].trim()));
-                getNewlyAddedTask(tasks);
-                break;
-            case "list":
-                if (commandArgs.length == 1) {
-                    drawBorder();
-                    System.out.println("\t はい! Here are the tasks in your list:");
-                    for (Task task : tasks) {
-                        System.out.println("\t " + (tasks.indexOf(task) + 1) + "." + task.toString());
-                    }
-                    drawBorder();
-                    break;
+            try {
+                switch (commandArgs[0]) {
+                    case "todo":
+                        processTodo(command, commandArgs, tasks);
+                        break;
+                    case "deadline":
+                        commandInput = command.replace(commandArgs[0], "");
+                        commandInputs = commandInput.split("/by");
+
+                        processDeadline(commandInputs, command, tasks);
+                        break;
+                    case "event":
+                        commandInput = command.replace(commandArgs[0], "");
+                        commandInputs = commandInput.split("/from|/to");
+
+                        processEvent(commandInputs, command, tasks);
+                        break;
+                    case "list":
+                        processList(tasks);
+                        break;
+                    case "mark":
+                        processMark(commandArgs, tasks);
+                        break;
+                    case "unmark":
+                        processUnmark(commandArgs, tasks);
+                        break;
+                    case "bye":
+                        isPrompting = false;
+                        break;
+                    default:
+                        throw new SallyException("\t すみません🙇‍♀️ This command is invalid!");
                 }
-            case "mark":
-                if (commandArgs.length == 1) {
-                    drawBorder();
-                    System.out.println("\t すみません🙇‍♀️ Please provide the index of the task you would like to mark.");
-                    drawBorder();
-                    break;
-                }
-                try {
-                    int index = Integer.parseInt(commandArgs[1]);
-                    if (index >= 1 && index <= tasks.size()) {
-                        tasks.get(index - 1).markAsDone();
-                        drawBorder();
-                        System.out.println("\t はい! I've marked your task as done:");
-                        System.out.println("\t " + tasks.get(index - 1).toString());
-                    }
-                    else  {
-                        drawBorder();
-                        System.out.println("\t すみません🙇‍♀️ This index is invalid!");
-                    }
-                    drawBorder();
-                    break;
-                } catch (NumberFormatException ignored) {}
-            case "unmark":
-                if (commandArgs.length == 1) {
-                    drawBorder();
-                    System.out.println("\t すみません🙇‍♀️ " +
-                            "Please provide the index of the task you would like to unmark.");
-                    drawBorder();
-                    break;
-                }
-                try {
-                    int index = Integer.parseInt(commandArgs[1]);
-                    drawBorder();
-                    if (index >= 1 && index <= tasks.size()) {
-                        tasks.get(index - 1).markAsNotDone();
-                        drawBorder();
-                        System.out.println("\t はい! I've marked your task as not done:");
-                        System.out.println("\t " + tasks.get(index - 1).toString());
-                    }
-                    else  {
-                        drawBorder();
-                        System.out.println("\t すみません🙇‍♀️ This index is invalid!");
-                    }
-                    drawBorder();
-                    break;
-                }
-                catch (NumberFormatException ignored) {}
-            case "bye":
-                if (commandArgs.length == 1) {
-                    isPrompting = false;
-                    break;
-                }
-            default:
-                tasks.add(new Task(command));
+            } catch (SallyException e) {
                 drawBorder();
-                System.out.println("\t はい! Added into the list of tasks: " + command);
+                System.out.println(e.getMessage());
                 drawBorder();
-                break;
             }
         }
 
@@ -115,6 +66,140 @@ public class Sallybot {
     }
 
     // HELPER METHODS
+
+    private static void processUnmark(String[] commandArgs, ArrayList<Task> tasks) {
+        if (commandArgs.length == 1) {
+            throw new SallyException("\t すみません🙇‍♀️ " +
+                    "Please provide the index of the task you would like to unmark.");
+        }
+        try {
+            int index = Integer.parseInt(commandArgs[1]);
+            if (index >= 1 && index <= tasks.size()) {
+                tasks.get(index - 1).markAsNotDone();
+                drawBorder();
+                System.out.println("\t はい! I've marked your task as not done:");
+                System.out.println("\t " + tasks.get(index - 1).toString());
+                drawBorder();
+            } else {
+                throw new SallyException("\t すみません🙇‍♀️ This index is invalid!");
+            }
+            return;
+        } catch (NumberFormatException e) {
+            drawBorder();
+            System.out.println("\t すみません🙇‍♀️ The parameter must be a number!");
+            drawBorder();
+            return;
+        }
+    }
+
+    private static void processMark(String[] commandArgs, ArrayList<Task> tasks) {
+        if (commandArgs.length == 1) {
+            throw new SallyException("\t すみません🙇‍♀️ Please provide the index of the task you would like to mark.");
+        }
+        try {
+            int index = Integer.parseInt(commandArgs[1]);
+            if (index >= 1 && index <= tasks.size()) {
+                tasks.get(index - 1).markAsDone();
+                drawBorder();
+                System.out.println("\t はい! I've marked your task as done:");
+                System.out.println("\t " + tasks.get(index - 1).toString());
+                drawBorder();
+            } else {
+                throw new SallyException("\t すみません🙇‍♀️ This index is invalid!");
+            }
+            return;
+        } catch (NumberFormatException e) {
+            drawBorder();
+            System.out.println("\t すみません🙇‍♀️ The parameter must be a number!");
+            drawBorder();
+            return;
+        }
+    }
+
+    private static void processList(ArrayList<Task> tasks) {
+        drawBorder();
+        System.out.println("\t はい! Here are the tasks in your list:");
+        for (Task task : tasks) {
+            System.out.println("\t " + (tasks.indexOf(task) + 1) + "." + task.toString());
+        }
+        drawBorder();
+    }
+
+    private static void processEvent(String[] commandInputs, String command, ArrayList<Task> tasks) {
+        if (commandInputs.length > 3 || Pattern.compile(Pattern.quote("/from"))
+                .matcher(command).results().count() > 1 || Pattern.compile(Pattern.quote("/to"))
+                .matcher(command).results().count() > 1 ) {
+            throw new SallyException("\t すみません🙇‍♀️ Please include only one /from and one /to subcommand!");
+        }
+        if (commandInputs[0].trim().isEmpty()) {
+            throw new SallyException("\t すみません🙇‍♀️ You need to give me a description!");
+        }
+        if (!command.contains("/from")) {
+            throw new SallyException("\t すみません🙇‍♀️ You need to include the /from command!");
+        }
+        if (!command.contains("/to")) {
+            throw new SallyException("\t すみません🙇‍♀️ You need to include the /to command!");
+        }
+        if (command.indexOf("/from") < command.indexOf("/to")) {
+            if (commandInputs[1].trim().isEmpty()) {
+                throw new SallyException("\t すみません🙇‍♀️ You need to give me a starting date!");
+            }
+            if (commandInputs.length == 2 || commandInputs[2].trim().isEmpty()) {
+                throw new SallyException("\t すみません🙇‍♀️ You need to give me an ending date!");
+            }
+            tasks.add(new Event(commandInputs[0].trim(), commandInputs[1].trim(), commandInputs[2].trim()));
+            getNewlyAddedTask(tasks);
+            return;
+        }
+        if (command.indexOf("/from") > command.indexOf("/to")) {
+            if (commandInputs[1].trim().isEmpty()) {
+                throw new SallyException("\t すみません🙇‍♀️ You need to give me an ending date!");
+            }
+            if (commandInputs.length == 2 || commandInputs[2].trim().isEmpty()) {
+                throw new SallyException("\t すみません🙇‍♀️ You need to give me a starting date!");
+            }
+            tasks.add(new Event(commandInputs[0].trim(), commandInputs[2].trim(), commandInputs[1].trim()));
+            getNewlyAddedTask(tasks);
+            return;
+        }
+
+        throw new SallyException("\t すみません🙇‍♀️ An unknown error occurred!");
+    }
+
+    private static void processDeadline(String[] commandInputs, String command, ArrayList<Task> tasks) {
+        if (commandInputs.length == 0 && command.contains("/by")) {
+            throw new SallyException("\t すみません🙇‍♀️ You need to give me a description!");
+        }
+        if (commandInputs.length > 2 || Pattern.compile(Pattern.quote("/by"))
+                .matcher(command)
+                .results()
+                .count() > 1) {
+            throw new SallyException("\t すみません🙇‍♀️ Please include only one /by subcommand!");
+        }
+        if (!command.contains("/by")) {
+            throw new SallyException("\t すみません🙇‍♀️ You need the /by command!");
+        }
+        if (commandInputs[0].trim().isEmpty()) {
+            throw new SallyException("\t すみません🙇‍♀️ You need to give me a description!");
+        }
+        if (commandInputs.length == 1 || command.contains("/by") && commandInputs[1].trim().isEmpty()) {
+            throw new SallyException("\t すみません🙇‍♀️ You need to give me a to-do date!");
+        }
+
+        tasks.add(new Deadline(commandInputs[0].trim(), commandInputs[1].trim()));
+        getNewlyAddedTask(tasks);
+    }
+
+    private static void processTodo(String command, String[] commandArgs, ArrayList<Task> tasks) {
+        String commandInput;
+        commandInput = command.replace(commandArgs[0], "").trim();
+        if (commandInput.isEmpty()) {
+            throw new SallyException("\t すみません🙇‍♀️ You didn't provide a ToDo description!");
+        }
+        tasks.add(new ToDo(commandInput));
+        getNewlyAddedTask(tasks);
+    }
+
     /**
      * Gets the newly added task in the array of tasks and displays it to the user.
      * @param tasks A dynamic array of the Task class type that stores task objects.
@@ -135,7 +220,9 @@ public class Sallybot {
         drawBorder();
         System.out.println(logo);
         System.out.println("\t 🌸こんにちは🌸");
-        System.out.println("\t Hello there✨ I'm Sallybot! Always here to help hehe\n");
+        System.out.println("\t Hello there✨ I'm Sallybot! Always here to help hehe");
+        System.out.println("\t 皆さんが日々ちょっとでも笑顔になる理由になりたいです❤");
+        System.out.println("\t I'm in the form of a bot because ᵗʰᵉ ᶦᵈᵒˡ ᵇᵘˢᶦⁿᵉˢˢ ᵈᵒᵉˢⁿ’ᵗ ᵖᵃʸ ᵐᵉ ᵉⁿᵒᵘᵍʰ\n");
         System.out.println("\t What can I do for you today?");
         drawBorder();
     }
@@ -154,7 +241,7 @@ public class Sallybot {
      * Draws a border.
      */
     private static void drawBorder() {
-        System.out.println("\t____________________________________________________________");
+        System.out.println("\t___________________________________________________________________________");
     }
 
     /**
