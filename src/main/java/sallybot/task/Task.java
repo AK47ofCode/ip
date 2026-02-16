@@ -1,3 +1,5 @@
+package sallybot.task;
+
 /**
  * Creates an object that represents a Task.<br>
  * It stores the description and the status of the task (whether it is done or not).
