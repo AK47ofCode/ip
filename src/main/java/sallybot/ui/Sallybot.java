@@ -31,6 +31,9 @@ public class Sallybot {
             // Switch statement to handle the various commands
             try {
                 switch (commandArgs[0]) {
+                    case "help":
+                        printHelpMessage();
+                        break;
                     case "todo":
                         processTodo(command, commandArgs, tasks);
                         break;
@@ -55,6 +58,9 @@ public class Sallybot {
                     case "unmark":
                         processUnmark(commandArgs, tasks);
                         break;
+                    case "delete":
+                        processDelete(commandArgs, tasks);
+                        break;
                     case "bye":
                         isPrompting = false;
                         break;
@@ -73,7 +79,35 @@ public class Sallybot {
         input.close();
     }
 
-    // HELPER METHODS
+    // HELPER METHODS FOR PROCESSING COMMANDS
+
+    private static void processDelete(String[] commandArgs, ArrayList<Task> tasks) {
+        if (commandArgs.length == 1) {
+            throw new SallyException("\t すみません🙇‍♀️ Please provide the index of the task you would like to delete.");
+        }
+        try {
+            int index = Integer.parseInt(commandArgs[1]);
+            if (index >= 1 && index <= tasks.size()) {
+                String deletedTask = tasks.get(index - 1).toString();
+                tasks.remove(index - 1);
+                drawBorder();
+                System.out.println("\t はい! I've deleted this task:");
+                System.out.println("\t " + deletedTask);
+                System.out.println("\t Now you have " + tasks.size() + " in the list.");
+                drawBorder();
+            }
+            else if (tasks.isEmpty()) {
+                throw new SallyException("\t すみません🙇‍♀️ You have no tasks!");
+            }
+            else {
+                throw new SallyException("\t すみません🙇‍♀️ This index is invalid!");
+            }
+        } catch (NumberFormatException e) {
+            drawBorder();
+            System.out.println("\t すみません🙇‍♀️ The parameter must be a number!");
+            drawBorder();
+        }
+    }
 
     private static void processUnmark(String[] commandArgs, ArrayList<Task> tasks) {
         if (commandArgs.length == 1) {
@@ -202,6 +236,32 @@ public class Sallybot {
         }
         tasks.add(new ToDo(commandInput));
         getNewlyAddedTask(tasks);
+    }
+
+    // HELPER METHODS FOR PRINTING MESSAGES AND LOGO
+
+    private static void printHelpMessage() {
+        drawBorder();
+        System.out.println("\t はい! Here are the available commands:");
+        System.out.println("\t 1) help");
+        System.out.println("\t    \t Shows this help message.");
+        System.out.println("\t 2) list");
+        System.out.println("\t    \t Lists all tasks.");
+        System.out.println("\t 3) todo <description>");
+        System.out.println("\t    \t Adds a ToDo task.");
+        System.out.println("\t 4) deadline <description> /by <date>");
+        System.out.println("\t    \t Adds a Deadline task.");
+        System.out.println("\t 5) event <description> /from <start> /to <end>");
+        System.out.println("\t    \t Adds an Event task.");
+        System.out.println("\t 6) mark <index>");
+        System.out.println("\t    \t Marks the task at index as done.");
+        System.out.println("\t 7) unmark <index>");
+        System.out.println("\t    \t Marks the task at index as not done.");
+        System.out.println("\t 8) delete <index>");
+        System.out.println("\t    \t Deletes the task at index.");
+        System.out.println("\t 9) bye");
+        System.out.println("\t    \t Exits the program.");
+        drawBorder();
     }
 
     /**
