@@ -1,4 +1,4 @@
-package sallybot.ui;
+package sallybot;
 
 import sallybot.exception.SallyException;
 import sallybot.storage.Storage;
@@ -109,6 +109,8 @@ public class Sallybot {
             drawBorder();
             System.out.println("\t すみません🙇‍♀️ The parameter must be a number!");
             drawBorder();
+        } finally {
+            STORAGE.save(tasks);
         }
     }
 
