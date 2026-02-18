@@ -91,12 +91,10 @@ public class Sallybot {
             } else {
                 throw new SallyException("\t すみません🙇‍♀️ This index is invalid!");
             }
-            return;
         } catch (NumberFormatException e) {
             drawBorder();
             System.out.println("\t すみません🙇‍♀️ The parameter must be a number!");
             drawBorder();
-            return;
         }
     }
 
@@ -115,12 +113,10 @@ public class Sallybot {
             } else {
                 throw new SallyException("\t すみません🙇‍♀️ This index is invalid!");
             }
-            return;
         } catch (NumberFormatException e) {
             drawBorder();
             System.out.println("\t すみません🙇‍♀️ The parameter must be a number!");
             drawBorder();
-            return;
         }
     }
 
