@@ -29,6 +29,10 @@ public class Task {
         isDone = false;
     }
 
+    public boolean getIsDone() {
+        return isDone;
+    }
+
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;
