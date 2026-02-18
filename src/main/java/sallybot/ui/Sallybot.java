@@ -1,6 +1,7 @@
 package sallybot.ui;
 
 import sallybot.exception.SallyException;
+import sallybot.storage.Storage;
 import sallybot.task.Deadline;
 import sallybot.task.Event;
 import sallybot.task.Task;
@@ -11,9 +12,11 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Sallybot {
+    private static final Storage STORAGE = new Storage("data/sallybot.txt");
+
     public static void main(String[] args) {
         boolean isPrompting = true;
-        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Task> tasks = STORAGE.load();
         String logo = getLogo();
         Scanner input = new Scanner(System.in);
 
@@ -77,8 +80,7 @@ public class Sallybot {
 
     private static void processUnmark(String[] commandArgs, ArrayList<Task> tasks) {
         if (commandArgs.length == 1) {
-            throw new SallyException("\t すみません🙇‍♀️ " +
-                    "Please provide the index of the task you would like to unmark.");
+            throw new SallyException("\t すみません🙇‍♀️ Please provide the index of the task you would like to unmark.");
         }
         try {
             int index = Integer.parseInt(commandArgs[1]);
@@ -95,6 +97,8 @@ public class Sallybot {
             drawBorder();
             System.out.println("\t すみません🙇‍♀️ The parameter must be a number!");
             drawBorder();
+        } finally {
+            STORAGE.save(tasks);
         }
     }
 
@@ -117,6 +121,8 @@ public class Sallybot {
             drawBorder();
             System.out.println("\t すみません🙇‍♀️ The parameter must be a number!");
             drawBorder();
+        } finally {
+            STORAGE.save(tasks);
         }
     }
 
@@ -153,6 +159,7 @@ public class Sallybot {
             }
             tasks.add(new Event(commandInputs[0].trim(), commandInputs[1].trim(), commandInputs[2].trim()));
             getNewlyAddedTask(tasks);
+            STORAGE.save(tasks);
             return;
         }
         if (command.indexOf("/from") > command.indexOf("/to")) {
@@ -164,6 +171,7 @@ public class Sallybot {
             }
             tasks.add(new Event(commandInputs[0].trim(), commandInputs[2].trim(), commandInputs[1].trim()));
             getNewlyAddedTask(tasks);
+            STORAGE.save(tasks);
             return;
         }
 
@@ -192,6 +200,7 @@ public class Sallybot {
 
         tasks.add(new Deadline(commandInputs[0].trim(), commandInputs[1].trim()));
         getNewlyAddedTask(tasks);
+        STORAGE.save(tasks);
     }
 
     private static void processTodo(String command, String[] commandArgs, ArrayList<Task> tasks) {
@@ -202,6 +211,7 @@ public class Sallybot {
         }
         tasks.add(new ToDo(commandInput));
         getNewlyAddedTask(tasks);
+        STORAGE.save(tasks);
     }
 
     /**
