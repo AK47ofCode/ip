@@ -12,6 +12,21 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Storage is responsible for loading and saving the tasks to a file. <br>
+ * It uses a simple text-based format to store the tasks, which is human-readable and easy to parse. <br>
+ * The format is as follows: <br>
+ * T | 1 | desc <br>
+ * D | 0 | desc | by <br>
+ * E | 0 | desc | from | to <br>
+ * where the first part is the type of task (T for ToDo, D for Deadline, E for Event),
+ * the second part is the status of the task (1 for done, 0 for not done),
+ * the third part is the description of the task,
+ * and the remaining parts are the time-related information (if applicable). <br>
+ * The Storage class also ensures that the parent directory of the file exists before attempting to read or write,
+ * and it handles any IO exceptions that may occur during these operations
+ * by throwing a SallyException with an appropriate message.
+ */
 public class Storage {
     private final Path filePath;
 
@@ -44,6 +59,14 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves the given list of tasks to the file.
+     *
+     * @param tasks the list of tasks to save, which will be encoded into the specified text format
+     *              and written to the file.
+     * @throws SallyException if there is an error while writing to the file, such as an IOException,
+     *                        or if there is an error while ensuring the parent directory exists.
+     */
     public void save(List<Task> tasks) throws SallyException {
         ensureParentDirExists();
 
@@ -60,6 +83,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Ensures that the parent directory of the file exists. If it does not exist, it attempts to create it.
+     *
+     * @throws SallyException if there is an error while creating the parent directory.
+     */
     private void ensureParentDirExists() throws SallyException {
         Path parent = filePath.getParent();
         if (parent == null) {
@@ -72,6 +100,14 @@ public class Storage {
         }
     }
 
+    /**
+     * Tries to parse a line from the file into a Task object.
+     * If the line is corrupted or does not match the expected format, it returns null.
+     *
+     * @param line the line to parse, which is expected to be in the format of
+     *             "type | done | description | [time info]"
+     * @return a Task object if parsing is successful, or null if the line is corrupted/invalid.
+     */
     private Task tryParseLine(String line) {
         if (line == null) {
             return null;
@@ -82,10 +118,6 @@ public class Storage {
             return null;
         }
 
-        // Expected formats:
-        // T | 1 | desc
-        // D | 0 | desc | by
-        // E | 0 | desc | from | to
         String[] parts = trimmed.split("\\s*\\|\\s*");
         if (parts.length < 3) {
             return null;
@@ -106,35 +138,35 @@ public class Storage {
 
         try {
             switch (type) {
-                case "T": {
-                    Task t = new ToDo(desc);
-                    if (isDone) {
-                        t.markAsDone();
-                    }
-                    return t;
+            case "T": {
+                Task t = new ToDo(desc);
+                if (isDone) {
+                    t.markAsDone();
                 }
-                case "D": {
-                    if (parts.length < 4) {
-                        return null;
-                    }
-                    Task t = new Deadline(desc, parts[3].trim());
-                    if (isDone) {
-                        t.markAsDone();
-                    }
-                    return t;
-                }
-                case "E": {
-                    if (parts.length < 5) {
-                        return null;
-                    }
-                    Task t = new Event(desc, parts[3].trim(), parts[4].trim());
-                    if (isDone) {
-                        t.markAsDone();
-                    }
-                    return t;
-                }
-                default:
+                return t;
+            }
+            case "D": {
+                if (parts.length < 4) {
                     return null;
+                }
+                Task t = new Deadline(desc, parts[3].trim());
+                if (isDone) {
+                    t.markAsDone();
+                }
+                return t;
+            }
+            case "E": {
+                if (parts.length < 5) {
+                    return null;
+                }
+                Task t = new Event(desc, parts[3].trim(), parts[4].trim());
+                if (isDone) {
+                    t.markAsDone();
+                }
+                return t;
+            }
+            default:
+                return null;
             }
         } catch (Exception ignored) {
             // Any unexpected constructor/parsing issue = treat as corrupted line and skip
@@ -142,6 +174,16 @@ public class Storage {
         }
     }
 
+    /**
+     * Encodes a Task object into a string format suitable for saving to the file.
+     *
+     * @param task the Task object to encode, which can be an instance of ToDo, Deadline or Event. The method will
+     *             determine the type of task and format the string accordingly, including the status and
+     *             time-related information if applicable.
+     * @return a string representation of the task in the format of "type | done | description | [time info]", where
+     * "type" is "T" for ToDo, "D" for Deadline, and "E" for Event, "done" is "1" if the task is done
+     * and "0" if it is not done, "description" is the description of the task, and
+     */
     private String encode(Task task) {
         String done = task.getIsDone() ? "1" : "0";
 
@@ -151,8 +193,7 @@ public class Storage {
         if (task instanceof Deadline d) {
             return "D | " + done + " | " + d.getDescription() + " | " + d.getBy();
         }
-        if (task instanceof Event) {
-            Event e = (Event) task;
+        if (task instanceof Event e) {
             return "E | " + done + " | " + e.getDescription() + " | " + e.getFrom() + " | " + e.getTo();
         }
 

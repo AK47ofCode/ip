@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+/**
+ * The main class of the Sallybot program. <br>
+ * It is responsible for handling user input, processing commands, and displaying output to the user.
+ */
 public class Sallybot {
     private static final Storage STORAGE = new Storage("data/sallybot.txt");
 
@@ -278,6 +282,7 @@ public class Sallybot {
 
     /**
      * Gets the newly added task in the array of tasks and displays it to the user.
+     *
      * @param tasks A dynamic array of the Task class type that stores task objects.
      */
     private static void getNewlyAddedTask(ArrayList<Task> tasks) {
@@ -290,6 +295,7 @@ public class Sallybot {
 
     /**
      * Prints the hello message.
+     *
      * @param logo A string of text that represents the logo of Sallybot.
      */
     private static void printHelloMessage(String logo) {
@@ -322,6 +328,7 @@ public class Sallybot {
 
     /**
      * Renders the ASCII logo of Sallybot.
+     *
      * @return The ASCII logo of Sallybot as a String.
      */
     private static String getLogo() {
