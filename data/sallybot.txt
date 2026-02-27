@@ -4,3 +4,7 @@ E | 1 | project meeting | Aug 6th 2pm | 4pm
 T | 0 | join sports club
 D | 1 | CS2113 | 20 Feb 2026 23:59
 E | 1 | Study | 5pm | 6pm
+T | 0 | Lee Kuan Yi: Answer CS2113 tutorial questions
+D | 0 | weekly quiz | Monday 9pm
+E | 1 | CS2113 lecture | Friday 4 | 6pm
+E | 0 | hello | 5 | 6
