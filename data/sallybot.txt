@@ -5,6 +5,6 @@ T | 0 | join sports club
 D | 1 | CS2113 | 20 Feb 2026 23:59
 E | 1 | Study | 5pm | 6pm
 T | 0 | Lee Kuan Yi: Answer CS2113 tutorial questions
-D | 0 | weekly quiz | Monday 9pm
-E | 1 | CS2113 lecture | Friday 4 | 6pm
-E | 0 | hello | 5 | 6
+D | 1 | weekly quiz | Monday 9pm
+E | 0 | CS2113 lecture | Friday 4 | 6pm
+E | 0 | Do week 7 tasks | 27 Feb 2026 | 6 March 2026

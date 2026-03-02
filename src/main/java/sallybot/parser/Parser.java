@@ -1,5 +1,6 @@
 package sallybot.parser;
 
+import sallybot.commands.*;
 import sallybot.exception.SallyException;
 
 import java.util.regex.Pattern;
@@ -8,14 +9,14 @@ import java.util.regex.Pattern;
  * Parser is responsible for making sense of the user commands.
  */
 public class Parser {
-    public enum CommandWord {
-        HELP, TODO, DEADLINE, EVENT, LIST, MARK, UNMARK, DELETE, BYE
-    }
-
-    public record ParsedCommand(CommandWord word, String fullCommand, String[] args) {
-    }
-
-    public static ParsedCommand parse(String fullCommand) {
+    /**
+     * Parses the user input into a {@link Command}.
+     *
+     * @param fullCommand raw user input
+     * @return a concrete {@link Command}
+     * @throws SallyException if the command is invalid
+     */
+    public static Command parse(String fullCommand) {
         if (fullCommand == null) {
             throw new SallyException("\t すみません🙇‍♀️ This command is invalid!");
         }
@@ -29,16 +30,16 @@ public class Parser {
         String head = commandArgs[0];
 
         return switch (head) {
-        case "help" -> new ParsedCommand(CommandWord.HELP, trimmed, commandArgs);
-        case "todo" -> new ParsedCommand(CommandWord.TODO, trimmed, commandArgs);
-        case "deadline" -> new ParsedCommand(CommandWord.DEADLINE, trimmed, commandArgs);
-        case "event" -> new ParsedCommand(CommandWord.EVENT, trimmed, commandArgs);
-        case "list" -> new ParsedCommand(CommandWord.LIST, trimmed, commandArgs);
-        case "mark" -> new ParsedCommand(CommandWord.MARK, trimmed, commandArgs);
-        case "unmark" -> new ParsedCommand(CommandWord.UNMARK, trimmed, commandArgs);
-        case "delete" -> new ParsedCommand(CommandWord.DELETE, trimmed, commandArgs);
-        case "bye" -> new ParsedCommand(CommandWord.BYE, trimmed, commandArgs);
-        default -> throw new SallyException("\t すみません🙇‍♀️ This command is invalid!");
+        case "help" -> new HelpCommand();
+        case "todo" -> new AddTodoCommand(trimmed, commandArgs);
+        case "deadline" -> new AddDeadlineCommand(trimmed, commandArgs);
+        case "event" -> new AddEventCommand(trimmed, commandArgs);
+        case "list" -> new ListCommand();
+        case "mark" -> new MarkCommand(commandArgs);
+        case "unmark" -> new UnmarkCommand(commandArgs);
+        case "delete" -> new DeleteCommand(commandArgs);
+        case "bye" -> new ByeCommand();
+        default -> new UnknownCommand();
         };
     }
 
@@ -60,4 +61,3 @@ public class Parser {
         return rest.split("/from|/to");
     }
 }
-

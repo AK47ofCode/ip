@@ -1,0 +1,6 @@
+T | 1 | Lee Kuan Yi: Answer CS2113 tutorial questions
+D | 0 | weekly quiz | Monday 9pm
+E | 0 | CS2113 lecture | Friday 4 | 6pm
+T | 0 | Lee Kuan Yi: Answer CS2113 tutorial questions
+D | 0 | weekly quiz | Monday 9pm
+E | 0 | CS2113 lecture | Friday 4 | 6pm
