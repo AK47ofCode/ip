@@ -68,7 +68,9 @@ public class Ui {
         System.out.println("\t    \t Marks the task at index as not done.");
         System.out.println("\t 8) delete <index>");
         System.out.println("\t    \t Deletes the task at index.");
-        System.out.println("\t 9) bye");
+        System.out.println("\t 9) find <keyword>");
+        System.out.println("\t    \t Finds tasks that contain the keyword.");
+        System.out.println("\t 10) bye");
         System.out.println("\t    \t Exits the program.");
         showLine();
     }
@@ -113,6 +115,17 @@ public class Ui {
     public void showListHeader() {
         showLine();
         System.out.println("\t はい! Here are the tasks in your list:");
+    }
+
+    public void showFoundTasksHeader(String keyword) {
+        showLine();
+        System.out.println("\t はい! Here are the tasks that match your search for \"" + keyword + "\":");
+    }
+
+    public void showEmptyList() {
+        showLine();
+        System.out.println("\t Your task list is empty! Let's add some tasks! 🌸");
+        showLine();
     }
 
     public void showListItem(int indexOneBased, String taskString) {

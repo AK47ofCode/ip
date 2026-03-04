@@ -63,4 +63,18 @@ public class TaskList {
             throw new SallyException("\t すみません🙇‍♀️ This index is invalid!");
         }
     }
+
+    public List<Task> find(String arg) {
+        List<Task> foundTasks = new ArrayList<>();
+        for (Task t : tasks) {
+            if (t.toString().contains(arg)) {
+                foundTasks.add(t);
+            }
+        }
+        if (foundTasks.isEmpty()) {
+            throw new SallyException("\t すみません🙇‍♀️ No tasks found with this keyword!");
+        }
+
+        return foundTasks;
+    }
 }
