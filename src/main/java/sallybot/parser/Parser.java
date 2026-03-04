@@ -53,11 +53,14 @@ public class Parser {
 
     public static String[] parseDeadlineParts(String fullCommand, String[] args) {
         String rest = fullCommand.replaceFirst(Pattern.quote(args[0]), "");
-        return rest.split("/by");
+        // Split on the literal '/by' token (not regex '/by') so dates like 2/12/2019 aren't broken by '/'.
+        return rest.split("\\s*" + Pattern.quote("/by") + "\\s*");
     }
 
     public static String[] parseEventParts(String fullCommand, String[] args) {
         String rest = fullCommand.replaceFirst(Pattern.quote(args[0]), "");
-        return rest.split("/from|/to");
+        // Use a regex that matches the whole tokens '/from' or '/to' (not just '/')
+        // so dates like 12/11/2026 are preserved.
+        return rest.split("\\s*(?:/from|/to)\\s*");
     }
 }

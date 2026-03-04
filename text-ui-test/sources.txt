@@ -13,7 +13,7 @@ C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\MarkCommand.j
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\UnknownCommand.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\UnmarkCommand.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\exception\SallyException.java
-C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\parser\CommandWord.java
+C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\parser\DateTimeUtil.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\parser\Parser.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\storage\Storage.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\task\Deadline.java

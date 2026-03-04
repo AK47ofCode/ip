@@ -1,12 +1,13 @@
 package sallybot.commands;
 
 import sallybot.exception.SallyException;
-import sallybot.parser.Parser;
+import sallybot.parser.DateTimeUtil;
 import sallybot.storage.Storage;
 import sallybot.task.Deadline;
 import sallybot.task.TaskList;
 import sallybot.ui.Ui;
 
+import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
 public class AddDeadlineCommand extends Command {
@@ -20,30 +21,28 @@ public class AddDeadlineCommand extends Command {
 
     @Override
     public CommandResult execute(TaskList tasks, Ui ui, Storage storage) {
-        String[] commandInputs = Parser.parseDeadlineParts(fullCommand, args);
-
-        if (commandInputs.length == 0 && fullCommand.contains("/by")) {
-            throw new SallyException("\t すみません🙇‍♀️ You need to give me a description!");
-        }
-        if (commandInputs.length > 2 || Pattern.compile(Pattern.quote("/by"))
-                .matcher(fullCommand)
-                .results()
-                .count() > 1) {
-            throw new SallyException("\t すみません🙇‍♀️ Please include only one /by subcommand!");
-        }
         if (!fullCommand.contains("/by")) {
             throw new SallyException("\t すみません🙇‍♀️ You need the /by command!");
         }
-        if (commandInputs[0].trim().isEmpty()) {
+        if (Pattern.compile(Pattern.quote("/by")).matcher(fullCommand).results().count() > 1) {
+            throw new SallyException("\t すみません🙇‍♀️ Please include only one /by subcommand!");
+        }
+
+        int byIndex = fullCommand.indexOf("/by");
+        String desc = fullCommand.substring(args[0].length(), byIndex).trim();
+        String byRaw = fullCommand.substring(byIndex + "/by".length()).trim();
+
+        if (desc.isEmpty()) {
             throw new SallyException("\t すみません🙇‍♀️ You need to give me a description!");
         }
-        if (commandInputs.length == 1 || fullCommand.contains("/by") && commandInputs[1].trim().isEmpty()) {
+        if (byRaw.isEmpty()) {
             throw new SallyException("\t すみません🙇‍♀️ You need to give me a to-do date!");
         }
 
-        tasks.add(new Deadline(commandInputs[0].trim(), commandInputs[1].trim()));
+        LocalDateTime by = DateTimeUtil.parseUserDateTime(byRaw);
+
+        tasks.add(new Deadline(desc, by));
         ui.showAddedTask(tasks.get(tasks.size()).toString(), tasks.size());
         return CommandResult.save();
     }
 }
-
