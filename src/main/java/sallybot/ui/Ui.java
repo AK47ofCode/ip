@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 /**
  * Ui is responsible for all interactions with the user (printing messages + reading input).
+ * It provides methods to display various messages and prompts to the user, as well as a method to read user input.
+ * The Ui class also includes a method to close the Scanner resource when it is no longer needed.
+ * The Ui class is designed to be used by the main Sallybot class and other components to facilitate user interaction
+ * in a consistent and user-friendly manner.
  */
 public class Ui {
     private static final String DIVIDER = "\t___________________________________________________________________________";

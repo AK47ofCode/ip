@@ -1,6 +1,7 @@
 package sallybot.storage;
 
 import sallybot.exception.SallyException;
+import sallybot.parser.DateTimeUtil;
 import sallybot.task.Deadline;
 import sallybot.task.Event;
 import sallybot.task.Task;
@@ -9,6 +10,7 @@ import sallybot.task.ToDo;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +86,8 @@ public class Storage {
     }
 
     /**
-     * Ensures that the parent directory of the file exists. If it does not exist, it attempts to create it.
+     * Ensures that the parent directory of the file exists.
+     * If it does not exist, it attempts to create it.
      *
      * @throws SallyException if there is an error while creating the parent directory.
      */
@@ -149,7 +152,8 @@ public class Storage {
                 if (parts.length < 4) {
                     return null;
                 }
-                Task t = new Deadline(desc, parts[3].trim());
+                // Expect ISO-8601 datetime in storage file, e.g. 2019-12-02T18:00
+                Task t = new Deadline(desc, DateTimeUtil.parseStorageDateTime(parts[3].trim()));
                 if (isDone) {
                     t.markAsDone();
                 }
@@ -159,7 +163,9 @@ public class Storage {
                 if (parts.length < 5) {
                     return null;
                 }
-                Task t = new Event(desc, parts[3].trim(), parts[4].trim());
+                Task t = new Event(desc,
+                        DateTimeUtil.parseStorageDateTime(parts[3].trim()),
+                        DateTimeUtil.parseStorageDateTime(parts[4].trim()));
                 if (isDone) {
                     t.markAsDone();
                 }
@@ -168,6 +174,9 @@ public class Storage {
             default:
                 return null;
             }
+        } catch (DateTimeParseException ignored) {
+            // Corrupted date/time in storage -> skip line (stretch goal)
+            return null;
         } catch (Exception ignored) {
             // Any unexpected constructor/parsing issue = treat as corrupted line and skip
             return null;
@@ -182,7 +191,8 @@ public class Storage {
      *             time-related information if applicable.
      * @return a string representation of the task in the format of "type | done | description | [time info]", where
      * "type" is "T" for ToDo, "D" for Deadline, and "E" for Event, "done" is "1" if the task is done
-     * and "0" if it is not done, "description" is the description of the task, and
+     * and "0" if it is not done, "description" is the description of the task,
+     * and "time info" includes the deadline for Deadline tasks or the start and end times for Event tasks.
      */
     private String encode(Task task) {
         String done = task.getIsDone() ? "1" : "0";
@@ -201,4 +211,3 @@ public class Storage {
         return "T | " + done + " | " + task.getDescription();
     }
 }
-

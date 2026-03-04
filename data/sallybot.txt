@@ -1,10 +1,7 @@
 T | 1 | read book
-D | 1 | return book | June 6th
-E | 1 | project meeting | Aug 6th 2pm | 4pm
 T | 0 | join sports club
-D | 1 | CS2113 | 20 Feb 2026 23:59
-E | 1 | Study | 5pm | 6pm
-T | 0 | Lee Kuan Yi: Answer CS2113 tutorial questions
-D | 1 | weekly quiz | Monday 9pm
-E | 0 | CS2113 lecture | Friday 4 | 6pm
-E | 0 | Do week 7 tasks | 27 Feb 2026 | 6 March 2026
+T | 1 | Lee Kuan Yi: Answer CS2113 tutorial questions
+D | 1 | Eat | 2026-03-04T12:00
+E | 0 | Do assignment | 2026-03-09T15:00 | 2026-03-04T16:00
+D | 1 | return book | 2026-03-04T09:00
+E | 0 | eat | 2026-03-05T12:00 | 2026-03-05T13:00

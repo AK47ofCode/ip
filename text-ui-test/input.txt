@@ -1,7 +1,10 @@
 todo Lee Kuan Yi: Answer CS2113 tutorial questions
 deadline weekly quiz /by Monday 9pm
+deadline weekly quiz /by 9/3/2026 2100
+deadline weekly quiz /by 2026-03-09 2100
 list
 event CS2113 lecture /from Friday 4 /to 6pm
+event Countdown to end of 2027 /from 3/4/2026 0000 /to 31/12/2027 2359
 mark 1 done
 list
 bye
