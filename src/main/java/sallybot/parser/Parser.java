@@ -38,6 +38,7 @@ public class Parser {
         case "mark" -> new MarkCommand(commandArgs);
         case "unmark" -> new UnmarkCommand(commandArgs);
         case "delete" -> new DeleteCommand(commandArgs);
+        case "find" -> new FindCommand(fullCommand, commandArgs);
         case "bye" -> new ByeCommand();
         default -> new UnknownCommand();
         };
@@ -62,5 +63,13 @@ public class Parser {
         // Use a regex that matches the whole tokens '/from' or '/to' (not just '/')
         // so dates like 12/11/2026 are preserved.
         return rest.split("\\s*(?:/from|/to)\\s*");
+    }
+
+    public static String parseKeyword(String fullCommand, String[] args) {
+        String rest = fullCommand.replaceFirst(Pattern.quote(args[0]), "").trim();
+        if (rest.isEmpty()) {
+            throw new SallyException("\t すみません🙇‍♀️ You didn't provide a search keyword!");
+        }
+        return rest;
     }
 }
