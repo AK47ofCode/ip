@@ -8,14 +8,14 @@ public interface TaskInterface {
     /**
      * Gets the status icon of the task.
      *
-     * @return the status icon of the task, which is "X" if the task is done and " " if the task is not done.
+     * @return The status icon of the task, which is "X" if the task is done and " " if the task is not done.
      */
     String getStatusIcon();
 
     /**
      * Gets the description of the task.
      *
-     * @return the description of the task.
+     * @return The description of the task.
      */
     String getDescription();
 
@@ -32,14 +32,14 @@ public interface TaskInterface {
     /**
      * Returns the status of the task.
      *
-     * @return true if the task is done, false otherwise.
+     * @return True if the task is done, false otherwise.
      */
     boolean getIsDone();
 
     /**
      * Defines the string representation of the task.
      *
-     * @return the string representation of the task, which is in the format of [status icon] description.
+     * @return The string representation of the task, which is in the format of [status icon] description.
      */
     @Override
     String toString();

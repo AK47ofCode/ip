@@ -3,13 +3,11 @@ C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\AddDeadlineCo
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\AddEventCommand.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\AddTodoCommand.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\ByeCommand.java
-C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\CarolCommand.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\Command.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\CommandResult.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\DeleteCommand.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\FindCommand.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\HelpCommand.java
-C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\KirikoCommand.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\ListCommand.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\MarkCommand.java
 C:\Users\lky22\Documents\GitHub\ip\src\main\java\sallybot\commands\UnknownCommand.java

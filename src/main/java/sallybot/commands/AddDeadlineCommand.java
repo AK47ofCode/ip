@@ -10,10 +10,25 @@ import sallybot.ui.Ui;
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
+/**
+ * Handles the "deadline" command, which adds a new deadline task to the task list. <br>
+ * The command should be in the format: "deadline <description> /by <date/time>" <br>
+ * The description is the text before the "/by" subcommand, and the date/time is the text after the "/by" subcommand. <br>
+ * The date/time should be in a format that can be parsed by the DateTimeUtil.parseUserDateTime method. <br>
+ * This is a modifying command that requires saving after execution.
+ */
 public class AddDeadlineCommand extends Command {
     private final String fullCommand;
     private final String[] args;
 
+    /**
+     * Creates an AddDeadlineCommand with the full command string and its arguments.
+     * The full command string is needed to extract the description and the date/time, which may contain spaces and cannot be easily reconstructed from the args array.
+     * The args array contains the individual components of the command, but the description and date/time may be single strings that include multiple args.
+     *
+     * @param fullCommand The full command string entered by the user, e.g. "deadline submit report /by 2024-12-31 23:59".
+     * @param args The arguments extracted from the command, e.g. ["submit", "report", "/by", "2024-12-31", "23:59"].
+     */
     public AddDeadlineCommand(String fullCommand, String[] args) {
         this.fullCommand = fullCommand;
         this.args = args;

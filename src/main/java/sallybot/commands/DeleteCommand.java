@@ -6,6 +6,14 @@ import sallybot.task.Task;
 import sallybot.task.TaskList;
 import sallybot.ui.Ui;
 
+/**
+ * Handles the "delete" command, which deletes a task from the task list based on its index. <br>
+ * This is a modifying command that requires saving after execution. <br>
+ * The command format is "delete [index]", where [index] is the 1-based index of the task to delete in the task list. <br>
+ * If the index is missing or not a valid number, an error message will be shown to the user,
+ * and the command will still return a save result to ensure that any other changes are preserved. <br>
+ * Example usage: "delete 3" will delete the third task in the list.
+ */
 public class DeleteCommand extends Command {
     private final String[] args;
 

@@ -10,10 +10,25 @@ import sallybot.ui.Ui;
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
+/**
+ * Handles the "event" command, which adds an event task to the task list. <br>
+ * The command should be in the format: <code>event [description] /from [start time] /to [end time]</code>. <br>
+ * The description, start time and end time are extracted from the command string. <br>
+ * The start time and end time should be in a format that can be parsed by the DateTimeUtil.parseUserDateTime method. <br>
+ * This is a modifying command that requires saving after execution.
+ */
 public class AddEventCommand extends Command {
     private final String fullCommand;
     private final String[] args;
 
+    /**
+     * Creates an AddEventCommand with the full command string and its arguments.
+     * The full command string is needed to extract the description, start time and end time, which may contain spaces and cannot be easily reconstructed from the args array.
+     * The args array contains the individual components of the command, but the description, start time and end time may be single strings that include multiple args.
+     *
+     * @param fullCommand The full command string entered by the user, e.g. "event project meeting /from 2024-12-01 14:00 /to 2024-12-01 15:00".
+     * @param args The arguments extracted from the command, e.g. ["project", "meeting", "/from", "2024-12-01", "14:00", "/to", "2024-12-01", "15:00"].
+     */
     public AddEventCommand(String fullCommand, String[] args) {
         this.fullCommand = fullCommand;
         this.args = args;

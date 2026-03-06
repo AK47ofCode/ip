@@ -6,15 +6,22 @@ import sallybot.exception.SallyException;
 import java.util.regex.Pattern;
 
 /**
- * Parser is responsible for making sense of the user commands.
+ * Parser is responsible for making sense of the user commands. <br>
+ * The Parser is a crucial component of the application, as it serves as the bridge between the raw user input and the internal command execution logic,
+ * allowing the application to understand and respond to user commands effectively.
  */
 public class Parser {
     /**
-     * Parses the user input into a {@link Command}.
+     * Parses the user input into a {@link Command}. <br>
+     * The Parser class is designed to be easily extensible, allowing for new commands to be added in the future
+     * by simply adding new cases to the switch expression and creating the corresponding Command classes.
+     * The Parser class also centralizes the command parsing logic, making it easier to maintain and update as the application evolves.
+     * Overall, the Parser class plays a critical role in enabling the application to understand and respond to user commands effectively,
+     * contributing to a smooth and intuitive user experience.
      *
-     * @param fullCommand raw user input
-     * @return a concrete {@link Command}
-     * @throws SallyException if the command is invalid
+     * @param fullCommand Raw user input.
+     * @return A concrete {@link Command}.
+     * @throws SallyException If the command is invalid.
      */
     public static Command parse(String fullCommand) {
         if (fullCommand == null) {
@@ -44,6 +51,15 @@ public class Parser {
         };
     }
 
+    /**
+     * Parses the description of a ToDo task from the full command string. <br>
+     * The description is the part of the command after the command keyword (e.g. "todo") and may contain spaces. <br>
+     * The full command string is needed to extract the description, which may contain spaces and cannot be easily reconstructed from the args array.
+     *
+     * @param fullCommand The full command string entered by the user, e.g. "todo read book".
+     * @param args The arguments extracted from the command, e.g. ["read", "book"].
+     * @return The description of the ToDo task, e.g. "read book".
+     */
     public static String parseTodoDescription(String fullCommand, String[] args) {
         String desc = fullCommand.replaceFirst(Pattern.quote(args[0]), "").trim();
         if (desc.isEmpty()) {
@@ -52,19 +68,15 @@ public class Parser {
         return desc;
     }
 
-    public static String[] parseDeadlineParts(String fullCommand, String[] args) {
-        String rest = fullCommand.replaceFirst(Pattern.quote(args[0]), "");
-        // Split on the literal '/by' token (not regex '/by') so dates like 2/12/2019 aren't broken by '/'.
-        return rest.split("\\s*" + Pattern.quote("/by") + "\\s*");
-    }
-
-    public static String[] parseEventParts(String fullCommand, String[] args) {
-        String rest = fullCommand.replaceFirst(Pattern.quote(args[0]), "");
-        // Use a regex that matches the whole tokens '/from' or '/to' (not just '/')
-        // so dates like 12/11/2026 are preserved.
-        return rest.split("\\s*(?:/from|/to)\\s*");
-    }
-
+    /**
+     * Parses the search keyword from the full command string for the "find" command. <br>
+     * The keyword is the part of the command after the "find" keyword and may contain spaces. <br>
+     * The full command string is needed to extract the keyword, which may contain spaces and cannot be easily reconstructed from the args array.
+     *
+     * @param fullCommand The full command string entered by the user, e.g. "find homework".
+     * @param args The arguments extracted from the command, e.g. ["find", "homework"].
+     * @return The search keyword, e.g. "homework".
+     */
     public static String parseKeyword(String fullCommand, String[] args) {
         String rest = fullCommand.replaceFirst(Pattern.quote(args[0]), "").trim();
         if (rest.isEmpty()) {

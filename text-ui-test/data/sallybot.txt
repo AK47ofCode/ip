@@ -1,6 +1,7 @@
-T | 1 | Lee Kuan Yi: Answer CS2113 tutorial questions
-T | 0 | Lee Kuan Yi: Answer CS2113 tutorial questions
-T | 0 | Lee Kuan Yi: Answer CS2113 tutorial questions
+T | 0 | Get up early
 T | 0 | Lee Kuan Yi: Answer CS2113 tutorial questions
 D | 0 | weekly quiz | 2026-03-09T21:00
-E | 0 | CS2113 lecture | 2026-03-06T04:00 | 2026-03-04T18:00
+D | 1 | weekly quiz | 2026-03-09T21:00
+D | 0 | weekly quiz | 2026-03-09T21:00
+E | 0 | CS2113 lecture | 2026-03-06T04:00 | 2026-03-06T18:00
+E | 0 | Countdown to end of 2027 | 2026-04-03T00:00 | 2027-12-31T23:59
