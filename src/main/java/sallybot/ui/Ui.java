@@ -1,5 +1,7 @@
 package sallybot.ui;
 
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
@@ -13,13 +15,15 @@ public class Ui {
     private static final String DIVIDER = "\t___________________________________________________________________________";
 
     private final Scanner scanner;
+    private final PrintWriter out;
 
     /**
      * Constructs a new Ui instance and initializes the Scanner for reading user input.
      * The Scanner is set to read from the standard input stream (System.in).
      */
     public Ui() {
-        this.scanner = new Scanner(System.in);
+        this.out = new PrintWriter(System.out, true, StandardCharsets.UTF_8);
+        this.scanner = new Scanner(System.in, StandardCharsets.UTF_8);
     }
 
     /**
@@ -29,7 +33,7 @@ public class Ui {
      * This method prompts the user for input and waits until the user enters a line of text.
      */
     public String readCommand() {
-        System.out.println();
+        out.println();
         return scanner.nextLine();
     }
 
@@ -50,7 +54,7 @@ public class Ui {
      * making it easier for the user to read and understand the information being presented.
      */
     public void showLine() {
-        System.out.println(DIVIDER);
+        out.println(DIVIDER);
     }
 
     /**
@@ -60,12 +64,12 @@ public class Ui {
      */
     public void showWelcome() {
         showLine();
-        System.out.println(getLogo());
-        System.out.println("\t 🌸こんにちは🌸");
-        System.out.println("\t Hello there✨ I'm Sallybot! Always here to help hehe");
-        System.out.println("\t 皆さんが日々ちょっとでも笑顔になる理由になりたいです❤");
-        System.out.println("\t I'm in the form of a bot because ᵗʰᵉ ᶦᵈᵒˡ ᵇᵘˢᶦⁿᵉˢˢ ᵈᵒᵉˢⁿ’ᵗ ᵖᵃʸ ᵐᵉ ᵉⁿᵒᵘᵍʰ\n");
-        System.out.println("\t What can I do for you today?");
+        out.println(getLogo());
+        out.println("\t 🌸こんにちは🌸");
+        out.println("\t Hello there✨ I'm Sallybot! Always here to help hehe");
+        out.println("\t 皆さんが日々ちょっとでも笑顔になる理由になりたいです❤");
+        out.println("\t I'm in the form of a bot because ᵗʰᵉ ᶦᵈᵒˡ ᵇᵘˢᶦⁿᵉˢˢ ᵈᵒᵉˢⁿ’ᵗ ᵖᵃʸ ᵐᵉ ᵉⁿᵒᵘᵍʰ\n");
+        out.println("\t What can I do for you today?");
         showLine();
     }
 
@@ -76,8 +80,8 @@ public class Ui {
      */
     public void showBye() {
         showLine();
-        System.out.println("\t じゃあね👋");
-        System.out.println("\t See you later!");
+        out.println("\t じゃあね👋");
+        out.println("\t See you later!");
         showLine();
     }
 
@@ -90,33 +94,33 @@ public class Ui {
      */
     public void showHelp() {
         showLine();
-        System.out.println("\t はい! Here are the available commands:");
-        System.out.println("\t 1. help");
-        System.out.println("\t    \t Shows this help message.");
-        System.out.println("\t 2. list");
-        System.out.println("\t    \t Lists all tasks.");
-        System.out.println("\t 3. todo <description>");
-        System.out.println("\t    \t Adds a ToDo task.");
-        System.out.println("\t 4. deadline <description> /by <date>");
-        System.out.println("\t    \t Adds a Deadline task.");
-        System.out.println("\t 5. event <description> /from <start> /to <end>");
-        System.out.println("\t    \t Adds an Event task.");
-        System.out.println("\t 6. mark <index>");
-        System.out.println("\t    \t Marks the task at index as done.");
-        System.out.println("\t 7. unmark <index>");
-        System.out.println("\t    \t Marks the task at index as not done.");
-        System.out.println("\t 8. delete <index>");
-        System.out.println("\t    \t Deletes the task at index.");
-        System.out.println("\t 9. find <keyword>");
-        System.out.println("\t    \t Finds tasks that contain the keyword.");
-        System.out.println("\t 10. socials");
-        System.out.println("\t    \t Shows my socials and 22/7's socials! 🌸");
-        System.out.println("\t 11. kiriko");
-        System.out.println("\t    \t Shows a fun Kiriko voiceline! 🦊");
-        System.out.println("\t 12. carol");
-        System.out.println("\t    \t Shows a fun Carol voiceline! 👧");
-        System.out.println("\t 13. bye");
-        System.out.println("\t    \t Exits the program.");
+        out.println("\t はい! Here are the available commands:");
+        out.println("\t 1. help");
+        out.println("\t    \t Shows this help message.");
+        out.println("\t 2. list");
+        out.println("\t    \t Lists all tasks.");
+        out.println("\t 3. todo <description>");
+        out.println("\t    \t Adds a ToDo task.");
+        out.println("\t 4. deadline <description> /by <date>");
+        out.println("\t    \t Adds a Deadline task.");
+        out.println("\t 5. event <description> /from <start> /to <end>");
+        out.println("\t    \t Adds an Event task.");
+        out.println("\t 6. mark <index>");
+        out.println("\t    \t Marks the task at index as done.");
+        out.println("\t 7. unmark <index>");
+        out.println("\t    \t Marks the task at index as not done.");
+        out.println("\t 8. delete <index>");
+        out.println("\t    \t Deletes the task at index.");
+        out.println("\t 9. find <keyword>");
+        out.println("\t    \t Finds tasks that contain the keyword.");
+        out.println("\t 10. socials");
+        out.println("\t    \t Shows my socials and 22/7's socials! 🌸");
+        out.println("\t 11. kiriko");
+        out.println("\t    \t Shows a fun Kiriko voiceline! 🦊");
+        out.println("\t 12. carol");
+        out.println("\t    \t Shows a fun Carol voiceline! 👧");
+        out.println("\t 13. bye");
+        out.println("\t    \t Exits the program.");
         showLine();
     }
 
@@ -129,7 +133,7 @@ public class Ui {
      */
     public void showError(String message) {
         showLine();
-        System.out.println(message);
+        out.println(message);
         showLine();
     }
 
@@ -151,9 +155,9 @@ public class Ui {
      */
     public void showAddedTask(String taskString, int size) {
         showLine();
-        System.out.println("\t はい! I've added this task:");
-        System.out.println("\t   " + taskString);
-        System.out.println("\t Now you have " + size + " tasks in the list. 🌸");
+        out.println("\t はい! I've added this task:");
+        out.println("\t   " + taskString);
+        out.println("\t Now you have " + size + " tasks in the list. 🌸");
         showLine();
     }
 
@@ -167,9 +171,9 @@ public class Ui {
      */
     public void showDeletedTask(String taskString, int size) {
         showLine();
-        System.out.println("\t はい! I've deleted this task:");
-        System.out.println("\t " + taskString);
-        System.out.println("\t Now you have " + size + " in the list.");
+        out.println("\t はい! I've deleted this task:");
+        out.println("\t " + taskString);
+        out.println("\t Now you have " + size + " in the list.");
         showLine();
     }
 
@@ -184,11 +188,11 @@ public class Ui {
     public void showMarkedTask(String taskString, boolean isDone) {
         showLine();
         if (isDone) {
-            System.out.println("\t はい! I've marked your task as done:");
+            out.println("\t はい! I've marked your task as done:");
         } else {
-            System.out.println("\t はい! I've marked your task as not done:");
+            out.println("\t はい! I've marked your task as not done:");
         }
-        System.out.println("\t " + taskString);
+        out.println("\t " + taskString);
         showLine();
     }
 
@@ -198,7 +202,7 @@ public class Ui {
      */
     public void showListHeader() {
         showLine();
-        System.out.println("\t はい! Here are the tasks in your list:");
+        out.println("\t はい! Here are the tasks in your list:");
     }
 
     /**
@@ -211,7 +215,7 @@ public class Ui {
      */
     public void showFoundTasksHeader(String keyword) {
         showLine();
-        System.out.println("\t はい! Here are the tasks that match your search for \"" + keyword + "\":");
+        out.println("\t はい! Here are the tasks that match your search for \"" + keyword + "\":");
     }
 
     /**
@@ -222,7 +226,7 @@ public class Ui {
      */
     public void showEmptyList() {
         showLine();
-        System.out.println("\t Your task list is empty! Let's add some tasks! 🌸");
+        out.println("\t Your task list is empty! Let's add some tasks! 🌸");
         showLine();
     }
 
@@ -237,7 +241,7 @@ public class Ui {
      *                   description, and status.
      */
     public void showListItem(int indexOneBased, String taskString) {
-        System.out.println("\t " + indexOneBased + "." + taskString);
+        out.println("\t " + indexOneBased + "." + taskString);
     }
 
     /**
@@ -257,22 +261,22 @@ public class Ui {
      */
     public void showSocials() {
         showLine();
-        System.out.println("\t If you want to know more about me, check out my socials! 🌸");
-        System.out.println("\t No not as Sallybot HAHA, but as Sally Amaki!");
-        System.out.println("\t X/Twitter: https://x.com/sally_amaki");
-        System.out.println("\t Instagram: https://www.instagram.com/sallyamaki/");
-        System.out.println("\t TikTok: https://www.tiktok.com/@sally_amaki");
-        System.out.println("\t YouTube: https://www.youtube.com/@sallyamakiofficial");
-        System.out.println();
-        System.out.println("\t Please do check out 22/7's socials too! 🌸");
-        System.out.println("\t 22/7 is the idol group that I am a part of, and we have lots of fun content on our socials!");
-        System.out.println("\t X/Twitter: https://x.com/227_staff");
-        System.out.println("\t YouTube: https://www.youtube.com/c/227SMEJ");
-        System.out.println("\t Official Website: https://www.nanabunnonijyuuni.com/");
-        System.out.println();
-        System.out.println("\t Oh and please don't also forget to see my Anime English Club podcast! 🌸");
-        System.out.println("\t YouTube: https://www.youtube.com/@anime-english-club");
-        System.out.println("\t Spotify: https://open.spotify.com/show/3cc98Fciw33tyxZe636cKr");
+        out.println("\t If you want to know more about me, check out my socials! 🌸");
+        out.println("\t No not as Sallybot HAHA, but as Sally Amaki!");
+        out.println("\t X/Twitter: https://x.com/sally_amaki");
+        out.println("\t Instagram: https://www.instagram.com/sallyamaki/");
+        out.println("\t TikTok: https://www.tiktok.com/@sally_amaki");
+        out.println("\t YouTube: https://www.youtube.com/@sallyamakiofficial");
+        out.println();
+        out.println("\t Please do check out 22/7's socials too! 🌸");
+        out.println("\t 22/7 is the idol group that I am a part of, and we have lots of fun content on our socials!");
+        out.println("\t X/Twitter: https://x.com/227_staff");
+        out.println("\t YouTube: https://www.youtube.com/c/227SMEJ");
+        out.println("\t Official Website: https://www.nanabunnonijyuuni.com/");
+        out.println();
+        out.println("\t Oh and please don't also forget to see my Anime English Club podcast! 🌸");
+        out.println("\t YouTube: https://www.youtube.com/@anime-english-club");
+        out.println("\t Spotify: https://open.spotify.com/show/3cc98Fciw33tyxZe636cKr");
         showLine();
     }
 
@@ -283,7 +287,7 @@ public class Ui {
      */
     public void showKirikoVoiceline() {
         showLine();
-        System.out.println("\t Let the Kitsune guide you! 🦊");
+        out.println("\t Let the Kitsune guide you! 🦊");
         showLine();
     }
 
@@ -294,9 +298,9 @@ public class Ui {
      */
     public void showStopDoingThat() {
         showLine();
-        System.out.println("\t Hey.");
-        System.out.println("\t Stop doing that.");
-        System.out.println("\t https://imgur.com/a/hey-stop-doing-that-t4qaboS");
+        out.println("\t Hey.");
+        out.println("\t Stop doing that.");
+        out.println("\t https://imgur.com/a/hey-stop-doing-that-t4qaboS");
         showLine();
     }
 
