@@ -13,6 +13,13 @@ public class Event extends Task {
     protected LocalDateTime from;
     protected LocalDateTime to;
 
+    /**
+     * The constructor initializes the Event with the given description, start time and end time.
+     *
+     * @param description The description of the event task.
+     * @param from The start time of the event task as a LocalDateTime object.
+     * @param to The end time of the event task as a LocalDateTime object.
+     */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.from = from;
@@ -21,6 +28,11 @@ public class Event extends Task {
 
     /**
      * Backward-compatible constructor for values loaded from storage.
+     * This expects storage ISO-8601 format (e.g. 2019-12-02T18:00).
+     *
+     * @param description The description of the event task.
+     * @param from The start time of the event task as a string in storage format.
+     * @param to The end time of the event task as a string in storage format.
      */
     public Event(String description, String from, String to) {
         super(description);
@@ -36,24 +48,21 @@ public class Event extends Task {
     }
 
     /**
-     * @return the start time of the event task.
+     * This method returns the start time of the event task as a string formatted for storage.
+     *
+     * @return The start time of the event task.
      */
     public String getFrom() {
         return DateTimeUtil.formatForStorage(from);
     }
 
     /**
-     * @return the end time of the event task.
+     * This method returns the end time of the event task as a string formatted for storage.
+     *
+     * @return The end time of the event task.
      */
     public String getTo() {
         return DateTimeUtil.formatForStorage(to);
     }
 
-    public LocalDateTime getFromDateTime() {
-        return from;
-    }
-
-    public LocalDateTime getToDateTime() {
-        return to;
-    }
 }

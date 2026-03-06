@@ -10,8 +10,9 @@ public class Task implements TaskInterface {
 
     /**
      * Constructor for Task.
+     * Initializes the Task with the given description and sets the status to not done by default.
      *
-     * @param description the description of the task.
+     * @param description The description of the task.
      */
     public Task(String description) {
         this.description = description;

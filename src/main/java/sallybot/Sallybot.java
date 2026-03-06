@@ -19,14 +19,23 @@ import sallybot.ui.Ui;
  * The main method initializes the chatbot with a specified file path for storing tasks and starts the chatbot's main loop.
  *
  * @author Lee Kuan Yi
- * @version 1.0
- * @since 2025-01
+ * @version 0.2
+ * @since 2025-01-27
  */
 public class Sallybot {
     private final Storage storage;
     private final TaskList tasks;
     private final Ui ui;
 
+    /**
+     * Initializes the Sallybot chatbot with the specified file path for storing tasks.
+     * The constructor initializes the UI, storage, and task list.
+     * It attempts to load existing tasks from the specified file path.
+     * If the file does not exist or there is an error during loading, it initializes an empty task list
+     * and shows a loading error message to the user.
+     *
+     * @param filePath The file path where the chatbot will load and save tasks. If the file does not exist, it will be created.
+     */
     public Sallybot(String filePath) {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
@@ -41,6 +50,15 @@ public class Sallybot {
         this.tasks = loaded;
     }
 
+    /**
+     * Runs the main loop of the Sallybot chatbot.
+     * The method starts by showing a welcome message to the user.
+     * It then enters a loop where it continuously reads user commands, parses them, and executes them until the user decides to exit.
+     * For each command, it checks if the command execution indicates that the tasks should be saved,
+     * and if so, it saves the current task list to the specified file.
+     * The loop also checks if the command indicates that the chatbot should exit, in which case it breaks the loop
+     * and shows a goodbye message before closing the UI.
+     */
     public void run() {
         ui.showWelcome();
 
@@ -65,6 +83,14 @@ public class Sallybot {
         ui.close();
     }
 
+    /**
+     * The main method of the Sallybot chatbot application.
+     * This method initializes a new instance of the Sallybot chatbot with a specified file path for storing tasks
+     * and starts the chatbot's main loop by calling the run() method.
+     *
+     * @param args The command-line arguments.
+     *             This program does not use any command-line arguments, so this parameter is ignored.
+     */
     public static void main(String[] args) {
         new Sallybot("data/sallybot.txt").run();
     }

@@ -11,6 +11,12 @@ import java.time.LocalDateTime;
 public class Deadline extends Task {
     protected LocalDateTime by;
 
+    /**
+     * The constructor initializes the Deadline with the given description and deadline.
+     *
+     * @param description The description of the deadline task.
+     * @param by The deadline of the deadline task as a LocalDateTime object.
+     */
     public Deadline(String description, LocalDateTime by) {
         super(description);
         this.by = by;
@@ -31,13 +37,12 @@ public class Deadline extends Task {
     }
 
     /**
-     * @return the deadline of the deadline task.
+     * This method returns the deadline of the deadline task as a string formatted for storage.
+     *
+     * @return The deadline of the deadline task.
      */
     public String getBy() {
         return DateTimeUtil.formatForStorage(by);
     }
 
-    public LocalDateTime getByDateTime() {
-        return by;
-    }
 }

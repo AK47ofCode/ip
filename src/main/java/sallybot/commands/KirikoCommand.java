@@ -5,14 +5,13 @@ import sallybot.task.TaskList;
 import sallybot.ui.Ui;
 
 /**
- * Handles the "help" command, which shows the user a list of available commands and their usage.
+ * A command that shows a random Kiriko voiceline. <br>
  * This is a non-modifying command that does not require saving after execution.
  */
-public class HelpCommand extends Command {
+public class KirikoCommand extends Command {
     @Override
     public CommandResult execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showHelp();
+        ui.showKirikoVoiceline();
         return CommandResult.none();
     }
 }
-

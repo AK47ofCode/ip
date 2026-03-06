@@ -32,10 +32,29 @@ import java.util.List;
 public class Storage {
     private final Path filePath;
 
+    /**
+     * The constructor initializes the Storage with the given relative path to the file from the project root.
+     *
+     * @param relativePathFromProjectRoot The relative path to the file from the project root, e.g. "data/sallybot.txt".
+     *                                    The constructor will convert this string into a Path object and store it
+     *                                    for use in loading and saving tasks.
+     */
     public Storage(String relativePathFromProjectRoot) {
         this.filePath = Paths.get(relativePathFromProjectRoot);
     }
 
+    /**
+     * Loads the tasks from the file.
+     * The method first ensures that the parent directory of the file exists, creating it if necessary.
+     * If the file does not exist, it returns an empty list.
+     * If the file exists, it reads the lines from the file and attempts to parse each line into a Task object.
+     * If a line is corrupted or does not match the expected format, it is skipped (stretch goal).
+     * The method returns a list of successfully parsed Task objects.
+     *
+     * @return The list of tasks loaded from the file. If the file does not exist, it returns an empty list.
+     * @throws SallyException If there is an error while reading the file, such as an IOException,
+     * or if there is an error while ensuring the parent directory exists.
+     */
     public ArrayList<Task> load() throws SallyException {
         ensureParentDirExists();
 
@@ -63,10 +82,11 @@ public class Storage {
 
     /**
      * Saves the given list of tasks to the file.
+     * The method first ensures that the parent directory of the file exists, creating it if necessary.
      *
-     * @param tasks the list of tasks to save, which will be encoded into the specified text format
+     * @param tasks The list of tasks to save, which will be encoded into the specified text format
      *              and written to the file.
-     * @throws SallyException if there is an error while writing to the file, such as an IOException,
+     * @throws SallyException If there is an error while writing to the file, such as an IOException,
      *                        or if there is an error while ensuring the parent directory exists.
      */
     public void save(List<Task> tasks) throws SallyException {
@@ -89,7 +109,7 @@ public class Storage {
      * Ensures that the parent directory of the file exists.
      * If it does not exist, it attempts to create it.
      *
-     * @throws SallyException if there is an error while creating the parent directory.
+     * @throws SallyException If there is an error while creating the parent directory.
      */
     private void ensureParentDirExists() throws SallyException {
         Path parent = filePath.getParent();
@@ -107,9 +127,9 @@ public class Storage {
      * Tries to parse a line from the file into a Task object.
      * If the line is corrupted or does not match the expected format, it returns null.
      *
-     * @param line the line to parse, which is expected to be in the format of
-     *             "type | done | description | [time info]"
-     * @return a Task object if parsing is successful, or null if the line is corrupted/invalid.
+     * @param line The line to parse, which is expected to be in the format of
+     *             "type | done | description | [time info]".
+     * @return A Task object if parsing is successful, or null if the line is corrupted/invalid.
      */
     private Task tryParseLine(String line) {
         if (line == null) {
@@ -185,11 +205,15 @@ public class Storage {
 
     /**
      * Encodes a Task object into a string format suitable for saving to the file.
+     * The method checks the type of the task (ToDo, Deadline, or Event) and formats the string accordingly,
+     * including the status (done or not done) and any time-related information if applicable.
+     * The encoding format is designed to be simple and human-readable, while also being structured enough
+     * to allow for reliable parsing when loading the tasks back from the file.
      *
-     * @param task the Task object to encode, which can be an instance of ToDo, Deadline or Event. The method will
+     * @param task The Task object to encode, which can be an instance of ToDo, Deadline or Event. The method will
      *             determine the type of task and format the string accordingly, including the status and
      *             time-related information if applicable.
-     * @return a string representation of the task in the format of "type | done | description | [time info]", where
+     * @return A string representation of the task in the format of "type | done | description | [time info]", where
      * "type" is "T" for ToDo, "D" for Deadline, and "E" for Event, "done" is "1" if the task is done
      * and "0" if it is not done, "description" is the description of the task,
      * and "time info" includes the deadline for Deadline tasks or the start and end times for Event tasks.
