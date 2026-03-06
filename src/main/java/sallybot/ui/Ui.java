@@ -109,7 +109,13 @@ public class Ui {
         System.out.println("\t    \t Deletes the task at index.");
         System.out.println("\t 9. find <keyword>");
         System.out.println("\t    \t Finds tasks that contain the keyword.");
-        System.out.println("\t 10. bye");
+        System.out.println("\t 10. socials");
+        System.out.println("\t    \t Shows my socials and 22/7's socials! 🌸");
+        System.out.println("\t 11. kiriko");
+        System.out.println("\t    \t Shows a fun Kiriko voiceline! 🦊");
+        System.out.println("\t 12. carol");
+        System.out.println("\t    \t Shows a fun Carol voiceline! 👧");
+        System.out.println("\t 13. bye");
         System.out.println("\t    \t Exits the program.");
         showLine();
     }
@@ -245,6 +251,47 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Displays a message to the user with links to Sally Amaki's socials, 22/7's socials, and the Anime English Club podcast. <br>
+     * This method is called when the user enters the "socials" command.
+     */
+    public void showSocials() {
+        showLine();
+        System.out.println("\t If you want to know more about me, check out my socials! 🌸");
+        System.out.println("\t No not as Sallybot HAHA, but as Sally Amaki!");
+        System.out.println("\t X/Twitter: https://x.com/sally_amaki");
+        System.out.println("\t Instagram: https://www.instagram.com/sallyamaki/");
+        System.out.println("\t TikTok: https://www.tiktok.com/@sally_amaki");
+        System.out.println("\t YouTube: https://www.youtube.com/@sallyamakiofficial");
+        System.out.println();
+        System.out.println("\t Please do check out 22/7's socials too! 🌸");
+        System.out.println("\t 22/7 is the idol group that I am a part of, and we have lots of fun content on our socials!");
+        System.out.println("\t X/Twitter: https://x.com/227_staff");
+        System.out.println("\t YouTube: https://www.youtube.com/c/227SMEJ");
+        System.out.println("\t Official Website: https://www.nanabunnonijyuuni.com/");
+        System.out.println();
+        System.out.println("\t Oh and please don't also forget to see my Anime English Club podcast! 🌸");
+        System.out.println("\t YouTube: https://www.youtube.com/@anime-english-club");
+        System.out.println("\t Spotify: https://open.spotify.com/show/3cc98Fciw33tyxZe636cKr");
+        showLine();
+    }
+
+    /**
+     * Extra fun method to show a Kiriko voiceline to the user. <br>
+     * This is designed as a fun Easter egg for fans of the character Kiriko from the game Overwatch, and is not related to any specific command. <br>
+     * It can be called at any time to provide a lighthearted moment for the user and add some personality to the chatbot's interactions.
+     */
+    public void showKirikoVoiceline() {
+        showLine();
+        System.out.println("\t Let the Kitsune guide you! 🦊");
+        showLine();
+    }
+
+    /**
+     * Extra fun method to show a "Hey, stop doing that!" message to the user. <br>
+     * This is an Easter egg which is a reference to a popular internet meme of Carol Olston from Tomo-chan is a Girl!
+     * saying "Hey, stop doing that!" in a disapproving tone.
+     */
     public void showStopDoingThat() {
         showLine();
         System.out.println("\t Hey.");

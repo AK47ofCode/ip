@@ -129,24 +129,6 @@ public class TaskList {
     }
 
     /**
-     * Validates the given 1-based index to ensure it is within the valid range for the TaskList.
-     * This method checks if the TaskList is empty and throws a SallyException if it is.
-     * It also checks if the index is less than 1 or greater than the number of tasks in the TaskList and throws a SallyException if the index is invalid.
-     * This validation ensures that operations that require a valid index (such as getting, deleting, marking, or unmarking a task) are performed safely
-     * and that appropriate error messages are provided to the user when invalid indices are used.
-     *
-     * @param indexOneBased Takes a 1-based index and validates it to ensure it is within the valid range for the TaskList.
-     */
-    private void validateIndex(int indexOneBased) {
-        if (tasks.isEmpty()) {
-            throw new SallyException("\t すみません🙇‍♀️ You have no tasks!");
-        }
-        if (indexOneBased < 1 || indexOneBased > tasks.size()) {
-            throw new SallyException("\t すみません🙇‍♀️ This index is invalid!");
-        }
-    }
-
-    /**
      * Finds and returns a list of tasks that contain the given keyword in their string representation.
      * This method takes a keyword as input and iterates through the list of tasks, checking if each task's string representation contains the keyword.
      * If a task contains the keyword, it is added to the list of found tasks.
@@ -167,5 +149,23 @@ public class TaskList {
         }
 
         return foundTasks;
+    }
+
+    /**
+     * Validates the given 1-based index to ensure it is within the valid range for the TaskList.
+     * This method checks if the TaskList is empty and throws a SallyException if it is.
+     * It also checks if the index is less than 1 or greater than the number of tasks in the TaskList and throws a SallyException if the index is invalid.
+     * This validation ensures that operations that require a valid index (such as getting, deleting, marking, or unmarking a task) are performed safely
+     * and that appropriate error messages are provided to the user when invalid indices are used.
+     *
+     * @param indexOneBased Takes a 1-based index and validates it to ensure it is within the valid range for the TaskList.
+     */
+    private void validateIndex(int indexOneBased) {
+        if (tasks.isEmpty()) {
+            throw new SallyException("\t すみません🙇‍♀️ You have no tasks!");
+        }
+        if (indexOneBased < 1 || indexOneBased > tasks.size()) {
+            throw new SallyException("\t すみません🙇‍♀️ This index is invalid!");
+        }
     }
 }

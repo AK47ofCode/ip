@@ -46,6 +46,9 @@ public class Parser {
         case "unmark" -> new UnmarkCommand(commandArgs);
         case "delete" -> new DeleteCommand(commandArgs);
         case "find" -> new FindCommand(fullCommand, commandArgs);
+        case "socials" -> new SocialsCommand();
+        case "kiriko" -> new KirikoCommand();
+        case "carol" -> new CarolCommand();
         case "bye" -> new ByeCommand();
         default -> new UnknownCommand();
         };
